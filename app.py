@@ -318,7 +318,7 @@ dl_button = pn.widgets.FileDownload(callback=download_data, filename=f'tagger_da
 layout = pn.Card(pn.Column(pn.Row(pn.Column(pn.pane.Bokeh(p)),
                         pn.Column(url, pn.Row(home_team_name, away_team_name), highlight_start, att_direction, team_group, 'Current possession',possession_text,\
                                   game_situation, shot_type, outcome_type, shot_placement_type, add_possession),
-                        pn.Row(pn.Column(pn.pane.Bokeh(tableShot), pn.pane.Bokeh(tablePass))))),pn.Row(pn.pane.Bokeh(tableOutput, width=pitch_width-40), pn.Column(clear_btn, dl_button)))
+                        pn.Row(pn.Column(pn.pane.Bokeh(tableShot), pn.pane.Bokeh(tablePass))))),pn.Row(pn.pane.Bokeh(tableOutput), pn.Column(clear_btn, dl_button)))
 
 
 layout.servable()
