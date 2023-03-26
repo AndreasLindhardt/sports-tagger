@@ -17,7 +17,8 @@ from bokeh.io import output_notebook
 import panel as pn
 
 from io import StringIO
-from pathlib import Path
+import requests
+from PIL import Image
 
 
 def draw_pitch(width=700, height=500, fill_color='#FFFFFF', fill_alpha=0.5, hpad=0.25, vpad=0.25,
@@ -151,11 +152,23 @@ columnsLine = [TableColumn(field="xs", title="xs"),
 tableShot = DataTable(source=sourceShot, columns=columnsDot, editable=True, height=150, width=210)
 tablePass = DataTable(source=sourceLines, columns=columnsLine, editable=True, height=150, width=210)
 
-draw_toolPass = PolyDrawTool(renderers=[rendererPass], empty_value='pass', custom_icon=Path('img\pass.png'))
-draw_toolCarry = PolyDrawTool(renderers=[rendererPass], empty_value='dribble', custom_icon=Path('img\dribble.png'))
-draw_toolCross = PolyDrawTool(renderers=[rendererPass], empty_value='cross', custom_icon=Path('img\cross.png'))
-draw_toolShot = PointDrawTool(renderers=[rendererShot], empty_value='shot', custom_icon=Path('img\shot.png'))
-draw_toolDuel = PointDrawTool(renderers=[rendererShot], empty_value='duel', custom_icon=Path('img\duel.png'))
+passIconRes = requests.get('https://raw.githubusercontent.com/AndreasLindhardt/sports-tagger/main/img/pass.png', stream=True)
+dribbleIconRes = requests.get('https://raw.githubusercontent.com/AndreasLindhardt/sports-tagger/main/img/dribble.png', stream=True)
+crossIconRes = requests.get('https://raw.githubusercontent.com/AndreasLindhardt/sports-tagger/main/img/cross.png', stream=True)
+shotIconRes = requests.get('https://raw.githubusercontent.com/AndreasLindhardt/sports-tagger/main/img/shot.png', stream=True)
+duelIconRes = requests.get('https://raw.githubusercontent.com/AndreasLindhardt/sports-tagger/main/img/duel.png', stream=True)
+
+passIcon = Image.open(passIconRes.raw)
+dribbleIcon = Image.open(dribbleIconRes.raw)
+crossIcon = Image.open(crossIconRes.raw)
+shotIcon = Image.open(shotIconRes.raw)
+duelIcon = Image.open(duelIconRes.raw)
+
+draw_toolPass = PolyDrawTool(renderers=[rendererPass], empty_value='pass', custom_icon=passIcon)
+draw_toolCarry = PolyDrawTool(renderers=[rendererPass], empty_value='dribble', custom_icon=dribbleIcon)
+draw_toolCross = PolyDrawTool(renderers=[rendererPass], empty_value='cross', custom_icon=crossIcon)
+draw_toolShot = PointDrawTool(renderers=[rendererShot], empty_value='shot', custom_icon=shotIcon)
+draw_toolDuel = PointDrawTool(renderers=[rendererShot], empty_value='duel', custom_icon=duelIcon)
 
 p.add_tools(draw_toolPass)
 p.add_tools(draw_toolCarry)
